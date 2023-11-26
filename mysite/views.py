@@ -77,4 +77,48 @@ def publish_mqtt(request):
     client.publish(topic, payload=message, qos=1)
     client.loop_start()
     client.loop_stop()
-    return HttpResponse(topic+" "+message+"MQTT message published successfully!")
+    return HttpResponse(f"topic:{topic}    message:{message} sent successfully")
+def open(request):
+    topic = "test"
+    message = "open"
+    client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
+    client.on_connect = on_connect
+
+    # enable TLS for secure connection
+    client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
+    # set username and password
+    client.username_pw_set("btliot", "Bang1234")
+    # connect to HiveMQ Cloud on port 8883 (default for MQTT)
+    client.connect("efbeb273d1874dceb6240a54458171e9.s1.eu.hivemq.cloud", 8883)
+
+    # setting callbacks, use separate functions like above for better visibility
+    client.on_subscribe = on_subscribe
+    client.on_message = on_message
+    client.on_publish = on_publish
+    
+    client.publish(topic, payload=message, qos=1)
+    client.loop_start()
+    client.loop_stop()
+    return HttpResponse(f"topic:{topic}    message:{message} sent successfully")
+def close(request):
+    topic = "test"
+    message = "close"
+    client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
+    client.on_connect = on_connect
+
+    # enable TLS for secure connection
+    client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
+    # set username and password
+    client.username_pw_set("btliot", "Bang1234")
+    # connect to HiveMQ Cloud on port 8883 (default for MQTT)
+    client.connect("efbeb273d1874dceb6240a54458171e9.s1.eu.hivemq.cloud", 8883)
+
+    # setting callbacks, use separate functions like above for better visibility
+    client.on_subscribe = on_subscribe
+    client.on_message = on_message
+    client.on_publish = on_publish
+    
+    client.publish(topic, payload=message, qos=1)
+    client.loop_start()
+    client.loop_stop()
+    return HttpResponse(f"topic:{topic}    message:{message} sent successfully")
