@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MQTT Message Publisher</title>
+</head>
+<body>
+    <h1>MQTT Message Publisher</h1>
+    <form method="POST" action="{% url 'publish_mqtt' %}">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="Enter your message">
+        <button type="submit">Publish</button>
+    </form>
+</body>
+</html>
