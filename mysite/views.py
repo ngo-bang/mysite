@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-import paho.mqtt.client as mqtt
+import paho.mqtt.client as paho
+from paho import mqtt
 
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
@@ -58,8 +59,7 @@ def on_message(client, userdata, msg):
 def publish_mqtt(request):
     topic = "test"
     message = "Hello, MQTT!"
-
-    client = mqtt.Client(client_id="", userdata=None, protocol=mqtt.MQTTv5)
+    client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
     client.on_connect = on_connect
 
     # enable TLS for secure connection
@@ -73,11 +73,8 @@ def publish_mqtt(request):
     client.on_subscribe = on_subscribe
     client.on_message = on_message
     client.on_publish = on_publish
-
-    # subscribe to all topics of encyclopedia by using the wildcard "#"
-    client.subscribe("encyclopedia/#", qos=1)
-
-    # a single publish, this can also be done in loops, etc.
+    
     client.publish(topic, payload=message, qos=1)
-
+    client.loop_start()
+    client.loop_stop()
     return HttpResponse(topic+" "+message+"MQTT message published successfully!")
