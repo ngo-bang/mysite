@@ -20,5 +20,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('publish/', views.publish_mqtt),
+    path('close/', views.close),
+    path('open/', views.open),
 ]
 
